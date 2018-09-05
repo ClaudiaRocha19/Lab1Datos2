@@ -4,14 +4,17 @@
  * and open the template in the editor.
  */
 package Principal;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,6 +22,10 @@ import java.util.regex.Matcher;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import java.util.regex.Pattern;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeModel;
 
 /**
  *
@@ -56,6 +63,8 @@ public class FramePrincipal extends javax.swing.JFrame {
         Pnl_contarbol = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         Pnl_arbol = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        arb = new javax.swing.JTree();
         Pnl_output = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
@@ -86,7 +95,7 @@ public class FramePrincipal extends javax.swing.JFrame {
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Generar árbol");
         jLabel3.setToolTipText("");
-        jLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jLabel3.setOpaque(true);
 
         javax.swing.GroupLayout Pnl_inputLayout = new javax.swing.GroupLayout(Pnl_input);
@@ -134,15 +143,23 @@ public class FramePrincipal extends javax.swing.JFrame {
 
         Pnl_arbol.setBackground(new java.awt.Color(237, 233, 206));
 
+        jScrollPane3.setViewportView(arb);
+
         javax.swing.GroupLayout Pnl_arbolLayout = new javax.swing.GroupLayout(Pnl_arbol);
         Pnl_arbol.setLayout(Pnl_arbolLayout);
         Pnl_arbolLayout.setHorizontalGroup(
             Pnl_arbolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 688, Short.MAX_VALUE)
+            .addGroup(Pnl_arbolLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(539, Short.MAX_VALUE))
         );
         Pnl_arbolLayout.setVerticalGroup(
             Pnl_arbolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 386, Short.MAX_VALUE)
+            .addGroup(Pnl_arbolLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 364, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jScrollPane1.setViewportView(Pnl_arbol);
@@ -191,7 +208,7 @@ public class FramePrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     /**
-     * @param args the command line arguments 
+     * @param args the command line arguments
      */
     public static void main(String args[]) throws IOException {
         /* Set the Nimbus look and feel */
@@ -221,13 +238,74 @@ public class FramePrincipal extends javax.swing.JFrame {
             System.out.println("URL Inválida");;
         }
 
-       
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new FramePrincipal().setVisible(true);
             }
         });
 
+    }
+
+    public static void GenerarArbol() {
+        Tree arbol = new Tree();
+        File f = new File("h.txt");
+        String[] niveles = new String[100];
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(f));
+            String s, sub;
+            int i = 0;
+            DefaultMutableTreeNode root = null, father = null;
+            int nant = 0, nact = 0;
+            while((s = br.readLine())!= null) {
+                
+                if (s.substring(s.indexOf('<'), s.indexOf('<') + 1) != "</") {
+                    if (s.indexOf('<') == 0 && i == 0) {
+                        root = new DefaultMutableTreeNode(s);
+                        father = new DefaultMutableTreeNode(s);
+                        arbol.insertarNodo(s, null);
+                        nact = 0;
+                        nant = 8;
+                        niveles[0] = s;
+                    } else {
+                        nact = s.indexOf('<');
+                        if (nact == nant) {
+                            niveles[nact / 8] = s.substring(nact);
+                            DefaultMutableTreeNode child = new DefaultMutableTreeNode(s);
+                            father.add(child);
+
+                        } else {
+                            if (nact > nant) {
+                                nant += 8;
+                                father = new DefaultMutableTreeNode(niveles[(nact - 8) / 8]);
+                            } else {
+
+                                nant -= 8;
+                                father = new DefaultMutableTreeNode(niveles[(nact - 8) / 8]);
+                            }
+
+                        }
+                        sub = s.substring(s.indexOf('<'));
+                        arbol.insertarNodo(sub, niveles[(nact - 8) / 8]);
+                    }
+                    i++;
+                }
+            }
+
+            
+
+        } catch (FileNotFoundException ex) {
+            System.out.println("Archivo 'h.txt' no encontrado");
+        } catch (IOException ex) {
+            System.out.println("Problemas con el archivo 'h.txt'");
+        }
+
+    }
+
+    public static int hijos(String s, int nant) {
+        while (s.substring(0, s.indexOf('<')).length() == nant + 8) {
+
+        }
+        return 0;
     }
 
     public static void ValidarURL(URL url) throws IOException {
@@ -240,13 +318,13 @@ public class FramePrincipal extends javax.swing.JFrame {
             System.out.println("No se pudo establecer la conexión");
         }
         if (sw) {
-            File f = new File("h.txt"),patron = new File("patron.txt"),prueba = new File("prueba.txt");
-            
+            File f = new File("h.txt"), patron = new File("patron.txt"), prueba = new File("prueba.txt");
+
             BufferedWriter bw = new BufferedWriter(new FileWriter(f));
-            BufferedReader br = new BufferedReader(new FileReader(prueba)),br2 = new BufferedReader(new FileReader(patron));
+            BufferedReader br = new BufferedReader(new FileReader(prueba)), br2 = new BufferedReader(new FileReader(patron));
             String htmlformat = br2.readLine();
             br2.close();
-            Pattern p = Pattern.compile(htmlformat,Pattern.MULTILINE);
+            Pattern p = Pattern.compile(htmlformat, Pattern.MULTILINE);
             Matcher m;
             m = p.matcher(br.readLine());
             String s = null;
@@ -254,34 +332,33 @@ public class FramePrincipal extends javax.swing.JFrame {
                 m = p.matcher(s);
                 if (m.find()) {
                     bw.write(m.group());
-                    System.out.println("GROUP: "+m.group());
                     bw.newLine();
                 }
 
             }
-            
-           
+
             try {
                 bw.close();
                 br.close();
             } catch (IOException ex) {
                 Logger.getLogger(FramePrincipal.class.getName()).log(Level.SEVERE, null, ex);
             }
-            System.out.println("Holi");
+            GenerarArbol();
         }
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Pnl_arbol;
     private javax.swing.JPanel Pnl_contarbol;
     private javax.swing.JPanel Pnl_contenedor;
     private javax.swing.JPanel Pnl_input;
     private javax.swing.JPanel Pnl_output;
+    private javax.swing.JTree arb;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField txt_url;
     // End of variables declaration//GEN-END:variables

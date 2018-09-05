@@ -1,0 +1,34 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title> 
+		<link rel="stylesheet" href="css/estilo.css">
+		<script type="text/javascript" href="js/script.js"></script>
+	</head>
+	<body>
+		<header>
+			<h1>
+		</header>
+		<section id="algo">
+			<img src="images/img.png" alt="img prueba">
+			<ul class="lista">
+				<li>
+				<li>
+				<li>
+				<li>
+			</ul>
+			<article>
+				<p>
+				<div id="conte">
+					<img src="images/img.png" alt="img prueba">
+					<img src="images/img.png" alt="img prueba">
+				</div>
+			</article>
+		</section>
+		<footer>
+			<h2>
+			<span>
+		</footer>
+			
+	</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title> Prueba </title>
+		<link rel="stylesheet" href="css/estilo.css">
+		<script type="text/javascript" href="js/script.js"></script>
+	</head>
+	<body>
+		<header>
+			<h1>Titulo</h1>
+		</header>
+		<section id="algo">
+			<img src="images/img.png" alt="img prueba">
+			<ul class="lista">
+				<li>op1</li>
+				<li>op2</li>
+				<li>op3</li>
+				<li>op4</li>
+			</ul>
+			<article>
+				<p>asskadkasjdkjaskdjksadjkasd</p>
+				<div id="conte">
+					<img src="images/img.png" alt="img prueba">
+					<img src="images/img.png" alt="img prueba">
+				</div>
+			</article>
+		</section>
+		<footer>
+			<h2>algo</h2>
+			<span>icono</span>
+		</footer>
+			
+	</body>
+</html>

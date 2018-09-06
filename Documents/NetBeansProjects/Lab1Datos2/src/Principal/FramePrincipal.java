@@ -5,6 +5,7 @@
  */
 package Principal;
 
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -345,7 +346,9 @@ public class FramePrincipal extends javax.swing.JFrame {
             }
             GenerarArbol();
         }
+        
     }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Pnl_arbol;
     private javax.swing.JPanel Pnl_contarbol;
